@@ -60,36 +60,40 @@ int main() {
   string inputTemp = "";
   string conversionType = "";
   double startingTemp;
+  bool isValidTemp = false;
+  bool isValidConversionType = false;
   
-  // prompt the user to enter a temperature, and store the input in variable 'inputTemp'
-  cout << "Please enter the starting temperature:" << endl; 
-  getline(cin, inputTemp);
+  while (!isValidTemp) {
+    // prompt the user to enter a temperature, and store the input in variable 'inputTemp'
+    cout << "Please enter the starting temperature:" << endl; 
+    getline(cin, inputTemp);
 
-  // check the input is a number, and convert from string to double
-  if (isValidNumber(inputTemp)) {
-    startingTemp = stod(inputTemp);
-  } else {
-    cout << "Invalid input (not a valid number)." << endl;
-    return 0;
+    // check the input is a number, and convert from string to double
+    isValidTemp = isValidNumber(inputTemp);
+    if (isValidTemp) {
+      startingTemp = stod(inputTemp);
+    } else {
+      cout << inputTemp << " is not a valid number." << endl;
+    }
   }
 
-  // prompt the user to enter the conversion type, and store the input in variable 'conversionType'
-  cout << "Press ‘C’ to convert from Fahrenheit to Centigrade." << endl;
-  cout << "Press ‘F’ to convert from Centigrade to Fahrenheit." << endl;
-  getline(cin, conversionType);
+  while (!isValidConversionType) {
+    // prompt the user to enter the conversion type, and store the input in variable 'conversionType'
+    cout << "\nPress ‘C’ to convert from Fahrenheit to Centigrade." << endl;
+    cout << "Press ‘F’ to convert from Centigrade to Fahrenheit." << endl;
+    getline(cin, conversionType);
 
-  // check the input is equal to either 'F' or 'C'
-  if (conversionType.length() != 1 || (conversionType[0] != 'F' && conversionType[0] != 'C'))  {
-    cout << "Invalid input (not 'F' or 'C')." << endl;
-    return 0;
-  
-  // if valid, output the answer to the console
-  } else {
-    cout << "\nYour choice: " << conversionType << endl;
-    if (conversionType[0] == 'C') {
-      cout << inputTemp << " degrees Fahrenheit is " << roundTo2Dp(fToC(startingTemp)) << " degrees Centigrade." << endl;
-    } else if (conversionType[0] == 'F') {
-      cout << inputTemp << " degrees Centigrade is " << roundTo2Dp(cToF(startingTemp)) << " degrees Fahrenheit." << endl;
+    // check the input is equal to either 'F' or 'C'
+    isValidConversionType = conversionType.length() == 1 && (conversionType[0] == 'F' || conversionType[0] == 'C');
+    if (!isValidConversionType)  {
+      cout << conversionType << " does not match 'F' or 'C'." << endl;
     }
+  }
+  // once valid, output the answer to the console
+  cout << "\nYour choice: " << conversionType << endl;
+  if (conversionType[0] == 'C') {
+    cout << inputTemp << " degrees Fahrenheit is " << roundTo2Dp(fToC(startingTemp)) << " degrees Centigrade." << endl;
+  } else if (conversionType[0] == 'F') {
+    cout << inputTemp << " degrees Centigrade is " << roundTo2Dp(cToF(startingTemp)) << " degrees Fahrenheit." << endl;
   }
 }
