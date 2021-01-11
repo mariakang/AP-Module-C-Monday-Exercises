@@ -14,7 +14,6 @@ Implementation notes:
 
 #include <iostream>
 #include <algorithm>
-#include <string.h>
 
 using namespace std;
 
